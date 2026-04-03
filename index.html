@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RazerSMP | Official Server</title>
+  <meta name="description" content="Join RazerSMP on Java and Bedrock. View server IP, rules, staff, store, Discord, and social links." />
+  <style>
+    :root {
+      --bg: #061008;
+      --bg-2: #0b1710;
+      --card: rgba(16, 28, 19, 0.74);
+      --line: rgba(110, 255, 141, 0.15);
+      --text: #f3fff5;
+      --muted: #afc6b5;
+      --green: #52ff75;
+      --green-2: #1dd14d;
+      --green-3: #90ff9c;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top, rgba(82, 255, 117, 0.15), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(29, 209, 77, 0.12), transparent 20%),
+        linear-gradient(180deg, #040a05 0%, #08120b 35%, #0a140d 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 95%);
+      pointer-events: none;
+      z-index: -3;
+    }
+
+    .glow-orb {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(82,255,117,0.16), transparent 65%);
+      filter: blur(18px);
+      pointer-events: none;
+      z-index: -2;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    .glow-a { top: -110px; left: -100px; }
+    .glow-b { right: -120px; top: 280px; animation-duration: 15s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(30px, 25px) scale(1.08); }
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particles span {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      background: rgba(144,255,156,0.16);
+      bottom: -30px;
+      animation: float 16s linear infinite;
+      box-shadow: 0 0 14px rgba(82,255,117,0.2);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.55); opacity: 0; }
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: rgba(4, 10, 5, 0.72);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(110, 255, 141, 0.1);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 1.15rem;
+      color: var(--green-3);
+      text-transform: uppercase;
+    }
+
+    .brand-badge {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 15px rgba(82,255,117,0.8);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: 0.25s ease;
+    }
+
+    nav a:hover {
+      color: var(--green);
+    }
+
+    .nav-store {
+      padding: 10px 14px;
+      border: 1px solid rgba(82,255,117,0.18);
+      border-radius: 999px;
+      background: rgba(82,255,117,0.08);
+    }
+
+    header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 80px;
+    }
+
+    .hero {
+      width: min(1200px, 94%);
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      animation: fadeUp 0.9s ease;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(82,255,117,0.08);
+      border: 1px solid rgba(82,255,117,0.14);
+      color: var(--green-3);
+      margin-bottom: 18px;
+      font-size: 0.92rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 0.96;
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 span {
+      color: var(--green);
+      text-shadow: 0 0 24px rgba(82,255,117,0.25);
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 800;
+      transition: 0.25s ease;
+      box-shadow: var(--shadow);
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--green-2), var(--green));
+      color: #031008;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      color: white;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: 14px;
+      max-width: 760px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(110,255,141,0.1);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--green);
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .stat span { color: var(--muted); font-size: 0.92rem; }
+
+    .hero-card {
+      position: relative;
+      background: linear-gradient(180deg, rgba(14,24,16,0.95), rgba(9,18,11,0.88));
+      border: 1px solid rgba(110,255,141,0.12);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      animation: floatCard 4s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(120deg, transparent, rgba(82,255,117,0.18), transparent);
+      transform: translateX(-100%);
+      animation: sweep 5s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes sweep {
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .logo-wrap img {
+      width: min(100%, 360px);
+      border-radius: 24px;
+      filter: drop-shadow(0 0 28px rgba(82,255,117,0.22));
+    }
+
+    .server-box {
+      display: grid;
+      gap: 12px;
+    }
+
+    .server-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .server-row small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .server-row strong { color: white; }
+
+    .mini-tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(82,255,117,0.1);
+      color: var(--green-3);
+      font-size: 0.82rem;
+      white-space: nowrap;
+      border: 1px solid rgba(82,255,117,0.12);
+    }
+
+    .copy-btn {
+      margin-top: 14px;
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #173921, #1f5f2f);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(90deg, #1b4728, #287739);
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
+      padding: 30px 0 70px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      max-width: 650px;
+      line-height: 1.7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(26px);
+      transition: 0.35s ease;
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(82,255,117,0.28);
+    }
+
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .card h3 {
+      color: var(--green-3);
+      margin-bottom: 10px;
+      font-size: 1.18rem;
+    }
+
+    .card p, .card li {
+      color: #e7f5e9;
+      line-height: 1.8;
+    }
+
+    .card ul {
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .link-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .link-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+      text-decoration: none;
+      color: white;
+      transition: 0.25s ease;
+    }
+
+    .link-item:hover {
+      transform: translateX(4px);
+      border-color: rgba(82,255,117,0.18);
+      background: rgba(82,255,117,0.07);
+    }
+
+    .pill {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(82,255,117,0.08);
+      color: var(--green-3);
+      border: 1px solid rgba(82,255,117,0.12);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .staff-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .staff-person {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .social-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .social-avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 22px;
+      object-fit: cover;
+      border: 1px solid rgba(82,255,117,0.18);
+      box-shadow: 0 0 20px rgba(82,255,117,0.12);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .social-meta strong {
+      display: block;
+      font-size: 1.08rem;
+      margin-bottom: 4px;
+    }
+
+    .social-meta span {
+      color: var(--muted);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      width: min(1180px, 92%);
+      margin: 10px auto 40px;
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid rgba(82,255,117,0.12);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .span-4, .span-6, .span-8, .span-12 {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .server-row,
+      .link-item,
+      .social-card {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orb glow-a"></div>
+  <div class="glow-orb glow-b"></div>
+  <div class="particles" id="particles"></div>
+
+  <nav>
+    <div class="brand">
+      <span class="brand-badge"></span>
+      <span>RazerSMP</span>
+    </div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#info">Info</a></li>
+      <li><a href="#rules">Rules</a></li>
+      <li><a href="#staff">Staff</a></li>
+      <li><a href="#socials">Socials</a></li>
+      <li><a href="#discord">Discord</a></li>
+      <li><a class="nav-store" href="https://store-razersmp.craftingstore.net" target="_blank">Store</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <div class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">⚡ Professional SMP Experience • Java & Bedrock</div>
+        <h1>Enter the world of <span>RazerSMP</span></h1>
+        <p>RazerSMP is a polished survival multiplayer experience built for competitive players, grinders, and community members who want a smooth server, clean features, active staff, and a strong Discord community.</p>
+
+        <div class="hero-actions">
+          <a href="#info" class="btn btn-primary">View Server Info</a>
+          <a href="https://discord.gg/EyzhGNA4Yu" target="_blank" class="btn btn-secondary">Join Discord</a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>Java</strong>
+            <span>razersmp.mythia.eu</span>
+          </div>
+          <div class="stat">
+            <strong>Bedrock</strong>
+            <span>46.4.123.163:25637</span>
+          </div>
+          <div class="stat">
+            <strong>Versions</strong>
+            <span>1.8 - 1.21+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="logo-wrap">
+          <img src="/mnt/data/a87afdd7-2792-4834-9c86-cf7dce0596d6.png" alt="RazerSMP Logo" />
+        </div>
+        <div class="server-box">
+          <div class="server-row">
+            <div>
+              <small>Java Address</small>
+              <strong>razersmp.mythia.eu</strong>
+            </div>
+            <span class="mini-tag">Main IP</span>
+          </div>
+          <div class="server-row">
+            <div>
+              <small>Bedrock Address</small>
+              <strong>46.4.123.163</strong>
+            </div>
+            <span class="mini-tag">Port 25637</span>
+          </div>
+          <div class="server-row">
+            <div>
+              <small>Store</small>
+              <strong>store-razersmp.craftingstore.net</strong>
+            </div>
+            <span class="mini-tag">Support Us</span>
+          </div>
+          <button class="copy-btn" onclick="copyIP()">Copy Java IP</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about" class="container">
+    <div class="section-heading">
+      <div>
+        <div class="pill">Why join us?</div>
+        <h2>Server Overview</h2>
+      </div>
+      <p>A cleaner, more professional server website with clear info, polished sections, animated effects, and all your important links in one place.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal span-4">
+        <h3>Crossplay Ready</h3>
+        <p>Both Java and Bedrock players can join and enjoy the same community experience.</p>
+      </div>
+      <div class="card reveal span-4">
+        <h3>Active Staff</h3>
+        <p>Owners, developers, and moderators are listed clearly so players know who runs the server.</p>
+      </div>
+      <div class="card reveal span-4">
+        <h3>Modern Design</h3>
+        <p>Animated hero section, glowing accents, particles, hover cards, and a more premium look overall.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="info" class="container">
+    <div class="section-heading">
+      <div>
+        <div class="pill">Connection info</div>
+        <h2>How to Join</h2>
+      </div>
+      <p>Everything your players need to connect quickly from Java or Bedrock.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal span-6">
+        <h3>Java Edition</h3>
+        <p><strong>IP:</strong> razersmp.mythia.eu</p>
+        <p><strong>Supported Versions:</strong> 1.8 - 1.21+</p>
+      </div>
+      <div class="card reveal span-6">
+        <h3>Bedrock Edition</h3>
+        <p><strong>IP:</strong> 46.4.123.163</p>
+        <p><strong>Port:</strong> 25637</p>
+        <p><strong>Support:</strong> Enabled</p>
+      </div>
+      <div class="card reveal span-12">
+        <h3>Quick Access</h3>
+        <div class="link-list">
+          <a class="link-item" href="https://store-razersmp.craftingstore.net" target="_blank"><span>🛒 Official Store</span><strong>Open</strong></a>
+          <a class="link-item" href="https://discord.gg/EyzhGNA4Yu" target="_blank"><span>💬 Community Discord</span><strong>Join</strong></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rules" class="container">
+    <div class="section-heading">
+      <div>
+        <div class="pill">Play fair</div>
+        <h2>Server Rules</h2>
+      </div>
+      <p>Simple rules that keep the server fun, fair, and enjoyable for everyone.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal span-12">
+        <ul>
+          <li>No hacking, cheating, exploiting, or using unfair advantages.</li>
+          <li>No extreme toxicity, hate speech, or targeted harassment.</li>
+          <li>No advertising other servers, communities, or unrelated services.</li>
+          <li>Respect staff decisions and cooperate during support situations.</li>
+          <li>No griefing or stealing if the active server mode does not allow it.</li>
+          <li>Use common sense and help keep the server active and enjoyable.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="staff" class="container">
+    <div class="section-heading">
+      <div>
+        <div class="pill">Meet the team</div>
+        <h2>Staff Team</h2>
+      </div>
+      <p>Your server team shown more cleanly and professionally.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal span-4">
+        <h3>Owner</h3>
+        <div class="staff-list">
+          <div class="staff-person">IsaSFX</div>
+          <div class="staff-person">6ajnux9.</div>
+        </div>
+      </div>
+      <div class="card reveal span-4">
+        <h3>Developers</h3>
+        <div class="staff-list">
+          <div class="staff-person">muscleman___</div>
+          <div class="staff-person">mdk4so</div>
+          <div class="staff-person">ItzAdinMC</div>
+        </div>
+      </div>
+      <div class="card reveal span-4">
+        <h3>Moderators</h3>
+        <div class="staff-list">
+          <div class="staff-person">Pkisback</div>
+          <div class="staff-person">Greezyo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="socials" class="container">
+    <div class="section-heading">
+      <div>
+        <div class="pill">Extra links</div>
+        <h2>Socials & Profiles</h2>
+      </div>
+      <p>I added a cleaner social section with profile-style cards. Replace the TikTok link below with your real profile link when you have it.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal span-6">
+        <div class="social-card">
+          <img class="social-avatar" src="/mnt/data/a87afdd7-2792-4834-9c86-cf7dce0596d6.png" alt="RazerSMP Profile" />
+          <div class="social-meta">
+            <strong>RazerSMP TikTok</strong>
+            <span>@razersmpofficial</span>
+            <a class="btn btn-secondary" href="#" target="_blank">Add TikTok Link</a>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal span-6">
+        <div class="social-card">
+          <img class="social-avatar" src="/mnt/data/a87afdd7-2792-4834-9c86-cf7dce0596d6.png" alt="RazerSMP Discord" />
+          <div class="social-meta">
+            <strong>Official Discord</strong>
+            <span>discord.gg/EyzhGNA4Yu</span>
+            <a class="btn btn-secondary" href="https://discord.gg/EyzhGNA4Yu" target="_blank">Open Discord</a>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal span-12">
+        <h3>Store & Community</h3>
+        <div class="link-list">
+          <a class="link-item" href="https://store-razersmp.craftingstore.net" target="_blank"><span>🛒 CraftingStore / Tebex-style shop</span><strong>Visit</strong></a>
+          <a class="link-item" href="https://discord.gg/EyzhGNA4Yu" target="_blank"><span>💬 Join announcements, tickets, support, and updates</span><strong>Open</strong></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="discord" class="container">
+    <div class="section-heading">
+      <div>
+        <div class="pill">Community hub</div>
+        <h2>Join the Discord</h2>
+      </div>
+      <p>Direct access to the community server for support, tickets, giveaways, updates, and news.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal span-12">
+        <div class="link-list">
+          <a class="link-item" href="https://discord.gg/EyzhGNA4Yu" target="_blank"><span>💬 RazerSMP Discord Invite</span><strong>discord.gg/EyzhGNA4Yu</strong></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 RazerSMP. Built for a better first impression.</p>
+  </footer>
+
+  <script>
+    function copyIP() {
+      navigator.clipboard.writeText("razersmp.mythia.eu");
+      alert("Java IP copied: razersmp.mythia.eu");
+    }
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach((card) => observer.observe(card));
+
+    const particles = document.getElementById('particles');
+    for (let i = 0; i < 34; i++) {
+      const particle = document.createElement('span');
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.animationDuration = (10 + Math.random() * 12) + 's';
+      particle.style.animationDelay = Math.random() * 5 + 's';
+      const size = 3 + Math.random() * 5;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particles.appendChild(particle);
+    }
+  </script>
+</body>
+</html>
